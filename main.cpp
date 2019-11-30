@@ -1,87 +1,75 @@
-//#include "Read_Image.hpp"
+#include "Picture.hpp"
+#include <dirent.h>
 #include <fcntl.h>
 #include <fstream>
 #include <iostream>
-#include <list>
 #include <stdio.h>
 #include <string.h>
 #include <string>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <vector>
 
 using namespace std;
+bool GetImageSize(const char *fn, int *x, int *y, string *str);
+std::vector<std::string> list_dir(const char *path);
 
-class Image {
-  public:
-    Image();
-    Image(const char *name, double height, double width);
-    bool GetImageSize(const char *name, double *width, double *height);
+int main() {
 
-  private:
-    const char *name;
-    double height;
-    double width;
-};
+    vector<Picture> v(10);
+    vector<Picture>::iterator it;
+    int i;
+    std::string theDirectory = "/home/yujin/바탕화면/사과";
+    char directory[256];
+    strcpy(directory, theDirectory.c_str());
+    std::vector<std::string> filelist = list_dir(directory);
 
-int main(void) {
-    list<Image> imgList;
-    Image *image;
+    for (int j = 0; j < 90; j++) {
 
-    for (int i = 1; i < 5; i++) {
-        char filename[256];
-        sprintf(filename, "%d.jpg", i);
-
-        double height = 0;
-        double width = 0;
+        std::string dirfilename = theDirectory + "/" + filelist[j];
+        char route[256];
+        strcpy(route, dirfilename.c_str());
+        int the_x = 0;
+        int the_y = 0;
         bool didRun = false;
+        std::string the_type = "";
 
-        didRun = image->GetImageSize((const char *)filename, &height, &width);
-        Image img(filename, height, width);
+        didRun = GetImageSize(route, &the_x, &the_y, &the_type);
 
-        cout << "name: " << filename << endl;
-        cout << "width:" << width << endl;
-        cout << "height: " << height << endl;
-
-        imgList.push_back(img);
-        cout << ">>Succesfully added to list!" << endl;
-        // strcpy((char *)name, "02.jpg");
+        std::cout << dirfilename << endl;
+        std::cout << the_x << "*" << the_y << endl;
+        std::cout << the_type << endl;
+        cout << endl;
+        Picture p(dirfilename, the_type, the_x, the_y);
+        v.push_back(p);
     }
-
-    string filepath = "./ImageList.txt";
-
-    int fd = open(filepath.c_str(), O_CREAT | O_APPEND | O_WRONLY, 0644);
-    if (fd == -1) {
-        perror("open() error!");
-        return 1;
-    }
-
-    list<Image>::iterator iter;
-
-    for (iter = imgList.begin(); iter != imgList.end(); ++iter) {
-        if (write(fd, &(*iter), sizeof(Image)) == -1) {
-            perror("write() error!");
-            return 2;
-        }
-    }
-    close(fd);
-
-    cout << ">>" << imgList.size()
-         << " imgage's info was succesfully saved to the " << filepath << endl;
 
     return 0;
 }
 
-Image::Image() {}
+std::vector<std::string> list_dir(const char *path) {
+    struct dirent *entry;
+    DIR *dir = opendir(path);
+    int i = 0;
+    int log = 0;
+    std::vector<std::string> filenames;
 
-Image::Image(const char *name, double height, double width) {
-    this->name = "0";
-    this->height = height;
-    this->width = width;
+    if (dir == NULL) {
+        return filenames;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+
+        filenames.push_back(entry->d_name);
+        log++;
+    }
+    closedir(dir);
+    return filenames;
 }
 
-bool Image::GetImageSize(const char *name, double *width, double *height) {
-    FILE *f = fopen(name, "rb");
+bool GetImageSize(const char *fn, int *x, int *y, string *str) {
+    FILE *f = fopen(fn, "rb");
     if (f == 0)
         return false;
     fseek(f, 0, SEEK_END);
@@ -91,8 +79,6 @@ bool Image::GetImageSize(const char *name, double *width, double *height) {
         fclose(f);
         return false;
     }
-    cout << name << endl;
-
     unsigned char buf[24];
     fread(buf, 1, 24, f);
 
@@ -115,25 +101,27 @@ bool Image::GetImageSize(const char *name, double *width, double *height) {
     fclose(f);
 
     if (buf[0] == 0xFF && buf[1] == 0xD8 && buf[2] == 0xFF) {
-        *height = (buf[7] << 8) + buf[8];
-        *width = (buf[9] << 8) + buf[10];
-
+        *y = (buf[7] << 8) + buf[8];
+        *x = (buf[9] << 8) + buf[10];
+        *str = "JPEG";
         return true;
     }
 
     if (buf[0] == 'G' && buf[1] == 'I' && buf[2] == 'F') {
-        *width = buf[6] + (buf[7] << 8);
-        *height = buf[8] + (buf[9] << 8);
+        *x = buf[6] + (buf[7] << 8);
+        *y = buf[8] + (buf[9] << 8);
+        *str = "GIF";
         return true;
     }
 
     if (buf[0] == 0x89 && buf[1] == 'P' && buf[2] == 'N' && buf[3] == 'G' &&
         buf[4] == 0x0D && buf[5] == 0x0A && buf[6] == 0x1A && buf[7] == 0x0A &&
         buf[12] == 'I' && buf[13] == 'H' && buf[14] == 'D' && buf[15] == 'R') {
-        *width =
+        *x =
             (buf[16] << 24) + (buf[17] << 16) + (buf[18] << 8) + (buf[19] << 0);
-        *height =
+        *y =
             (buf[20] << 24) + (buf[21] << 16) + (buf[22] << 8) + (buf[23] << 0);
+        *str = "PNG";
         return true;
     }
 

@@ -6,6 +6,14 @@
 
 #define MAX_TYPE_LEN 10
 
+using namespace std;
+
+struct YMD {
+    int date;
+    int year;
+    int month;
+};
+
 class Picture {
   public:
     Picture();
@@ -26,11 +34,21 @@ class Picture {
     int getY(void);
     int get_size(void);
 
+    void set_time(const char *pathname);
+
+    int get_year(void);
+    int get_month(void);
+    int get_date(void);
+
+    void print(vector<Picture> v);
+    void sorted_YMD(vector<Picture> v);
+
   private:
     std::string name;
     std::string type;
     int x, y;
     int size;
+    struct YMD b;
 };
 
 #endif

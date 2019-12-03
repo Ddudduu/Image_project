@@ -4,13 +4,13 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <string>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
-#include <string>
-#include <string.h>
 
 using namespace std;
 
@@ -78,7 +78,6 @@ void folder_YMD(string path, vector<Picture> v) {
             exit(-1);
         } else {
             wait(&pid);
-            cout << "1";
         }
     }
 }

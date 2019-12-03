@@ -50,7 +50,8 @@ vector<string> list_dir(const char *path) {
     }
 
     while ((entry = readdir(dir)) != NULL) {
-
+        if (entry->d_type == 4)
+            continue;
         filenames.push_back(entry->d_name);
         log++;
     }

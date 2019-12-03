@@ -43,9 +43,16 @@ class Picture {
     void print(vector<Picture> v);
     void sorted_YMD(vector<Picture> v);
 
+    void folder_resolution(string path, vector<Picture> v);
+    bool GetImageSize(const char *fn, int *x, int *y, string *str);
+
+    void setRoute(string route);
+    string getRoute();
+
   private:
     std::string name;
     std::string type;
+    string route;
     int x, y;
     int size;
     struct YMD b;

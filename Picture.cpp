@@ -19,14 +19,11 @@ Picture::Picture(std::string name, std::string type, int x, int y) {
 void Picture::setName(std::string name) { this->name = name; }
 
 void Picture::setType(std::string type) { this->type = type; }
-void Picture::setX(int x) { this->x = x; }
 
-void Picture::setY(int y) { this->y = y; }
+void Picture::setRoute(std::string route) { this->route = route; }
 
 std::string Picture::getName(void) { return this->name; }
 
 std::string Picture::getType(void) { return this->type; }
 
-int Picture::getX(void) { return this->x; }
-
-int Picture::getY(void) { return this->y; }
+std::string Picture::getRoute(void) { return this->route; }

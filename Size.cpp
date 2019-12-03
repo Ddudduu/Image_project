@@ -36,6 +36,6 @@ void Picture::sort_size(vector<Picture> v) {
 void Picture::print_size(vector<Picture> v) {
 
     for (int i = 0; i < v.size(); i++) {
-        cout << v[i].get_size() << endl;
+        cout << v[i].getName() << " : " << v[i].get_size() << endl;
     }
 }

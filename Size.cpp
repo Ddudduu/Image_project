@@ -13,7 +13,7 @@ void Picture::set_size(const char *pathname) {
         exit(-1);
     }
 
-    this->size = buf.st_size;
+    this->size = (int)buf.st_size / 1000;
 }
 
 int Picture::get_size(void) { return this->size; };
@@ -36,6 +36,7 @@ void Picture::sort_size(vector<Picture> v) {
 void Picture::print_size(vector<Picture> v) {
 
     for (int i = 0; i < v.size(); i++) {
-        cout << v[i].getName() << " : " << v[i].get_size() << endl;
+        cout << v[i].getName() << " : " << v[i].get_size() << " kb" << endl;
+        cout << endl;
     }
 }

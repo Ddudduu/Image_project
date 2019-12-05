@@ -1,4 +1,4 @@
-#include "Picture.hpp"
+﻿#include "Picture.hpp"
 #include <dirent.h>
 #include <fcntl.h>
 #include <fstream>
@@ -12,10 +12,10 @@
 #include <unistd.h>
 #include <vector>
 
-void Picture::setX(int x) { this->x = x; }
-
-void Picture::setY(int y) { this->y = y; }
-
+void Picture::setX_Y(int x, int y) {
+    this->x = x;
+    this->y = y;
+}
 int Picture::getX(void) { return this->x; }
 
 int Picture::getY(void) { return this->y; }
@@ -34,7 +34,7 @@ void Picture::folder_resolution(string path, vector<Picture> v) {
     for (int i = 0; i < v.size(); i++) {
 
         char src[100];
-        strcpy(src, (v[i].getName()).c_str());
+        strcpy(src, (v[i].getRoute()).c_str());
         int pid = fork();
         if (pid == 0) {
             if (v[i].getX() == v[i].getY()) { //정방형

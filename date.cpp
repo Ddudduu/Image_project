@@ -33,11 +33,17 @@ void Picture::sorted_YMD(vector<Picture> v) // recent order
                 tmp = v[j];
                 v[j] = v[j + 1];
                 v[j + 1] = tmp;
-            } else {
+            } else if (v[j].get_year() == v[j + 1].get_year()) {
                 if (v[j].get_month() < v[j + 1].get_month()) {
                     tmp = v[j];
                     v[j] = v[j + 1];
                     v[j + 1] = tmp;
+                } else if (v[j].get_month() == v[j + 1].get_month()) {
+                    if (v[j].get_date() < v[j + 1].get_date()) {
+                        tmp = v[j];
+                        v[j] = v[j + 1];
+                        v[j + 1] = tmp;
+                    }
                 }
             }
         }

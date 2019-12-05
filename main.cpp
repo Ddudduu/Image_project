@@ -23,14 +23,14 @@ int main() {
     char directory[256];
     std::string theDirectory;
 
-    cout << "경로를 입력해주세요" << endl;
+    cout << ">> 경로를 입력해주세요" << endl;
     getline(cin, theDirectory);
     cout << endl;
 
     cout << "[이미지관리]" << endl
          << "1.정보정렬" << endl
          << "2.디렉토리 분류" << endl
-         << "원하는 번호를 입력해주세요: ";
+         << ">> 원하는 번호를 입력해주세요: ";
     cin >> choice1;
 
     strcpy(directory, theDirectory.c_str());
@@ -41,7 +41,7 @@ int main() {
              << "[정보 정렬]" << endl
              << "1.크기 순" << endl
              << "2.날짜 순" << endl
-             << "원하는 번호를 입력해주세요: ";
+             << ">> 원하는 번호를 입력해주세요: ";
         cin >> choice2;
 
         cout << endl << endl;
@@ -60,13 +60,12 @@ int main() {
                 p.setName(filelist[j]);
                 v.push_back(p);
             }
-            cout << "===== 크기 순 정렬 =====" << endl;
+            cout << "===== 크기 순 정렬 =====" << endl << endl;
             p.sort_size(v);
         }
 
         else if (choice2 == 2) {
 
-            cout << theDirectory;
             for (int j = 0; j < filelist.size(); j++) {
 
                 if (filelist[j] == "." || filelist[j] == "..")
@@ -80,7 +79,7 @@ int main() {
                 p.setName(filelist[j]);
                 v.push_back(p);
             }
-            cout << "===== 날짜 순 정렬 =====" << endl;
+            cout << "===== 날짜 순 정렬 =====" << endl << endl;
             p.sorted_YMD(v);
         }
     } else if (choice1 == 2) {
@@ -88,7 +87,7 @@ int main() {
              << "[디렉토리 분류]" << endl
              << "1.해상도 별" << endl
              << "2.날짜 별" << endl
-             << "원하는 번호를 입력해주세요: ";
+             << ">> 원하는 번호를 입력해주세요: ";
         cin >> choice3;
         cout << endl << endl;
         if (choice3 == 1) {
@@ -115,7 +114,7 @@ int main() {
                 v.push_back(pic);
             }
             p.folder_resolution(theDirectory, v);
-            cout << "===== 해상도 별 분류 완료 =====" << endl;
+            cout << "===== 해상도 별 분류 완료 =====" << endl << endl;
         } else if (choice3 == 2) {
             for (int j = 0; j < filelist.size(); j++) {
 
@@ -131,7 +130,7 @@ int main() {
                 v.push_back(p);
             }
             p.folder_YMD(theDirectory, v);
-            cout << "===== 날짜 별 분류 완료 =====" << endl;
+            cout << "===== 날짜 별 분류 완료 =====" << endl << endl;
         }
     }
     return 0;

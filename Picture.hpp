@@ -21,8 +21,7 @@ class Picture {
 
     void setName(std::string name);
     void setType(std::string type);
-    void setX(int x);
-    void setY(int y);
+    void setX_Y(int x, int y);
 
     void set_size(const char *pathname);
     void sort_size(std::vector<Picture> v);
@@ -43,6 +42,7 @@ class Picture {
     void print(vector<Picture> v);
     void sorted_YMD(vector<Picture> v);
 
+    void folder_YMD(string path, vector<Picture> v);
     void folder_resolution(string path, vector<Picture> v);
     bool GetImageSize(const char *fn, int *x, int *y, string *str);
 

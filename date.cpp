@@ -45,7 +45,7 @@ void Picture::sorted_YMD(vector<Picture> v) // recent order
     print(v);
 }
 
-void folder_YMD(string path, vector<Picture> v) {
+void Picture::folder_YMD(string path, vector<Picture> v) {
     vector<string> names;
 
     for (int i = 0; i < v.size(); i++) {

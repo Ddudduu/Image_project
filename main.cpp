@@ -140,7 +140,7 @@ vector<string> list_dir(const char *path) {
     struct dirent *entry;
     DIR *dir = opendir(path);
     int i = 0;
-    int log = 0;
+   
     std::vector<std::string> filenames;
 
     if (dir == NULL) {
@@ -151,7 +151,7 @@ vector<string> list_dir(const char *path) {
         if (entry->d_type == 4)
             continue;
         filenames.push_back(entry->d_name);
-        log++;
+       
     }
     closedir(dir);
     return filenames;
